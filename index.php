@@ -2,6 +2,12 @@
 
 <?php include('includes/header.php'); ?>
 
+<?php 
+	if(!isset($_SESSION['user_id'])){
+		header('Location: signin/login.php');
+	}
+?>
+
 <main class="container p-4">
   <div class="row">
     <div class="col-md-4">

@@ -51,30 +51,32 @@ if (isset($_POST['save_user'])) {
 
   //Form Validation Ends
 
-  /* disable autocommit */
-  $conn->autocommit(FALSE);
-  
-  if($has_warning != 1) {
-
-    $query          = "INSERT INTO `user-info`(name, email, about_user) VALUES ('$name', '$email', '$about')";
-    $result         = mysqli_query($conn, $query);
+  //DB Insert
+    /* disable autocommit */
+    $conn->autocommit(FALSE);
     
-    if(!$result) {
-      
-      /* Rollback */
-      $conn->rollback();
+    if($has_warning != 1) {
 
-      die("User Added Failed. Please Try Again." . $result->error);
+      $query          = "INSERT INTO `user-info`(name, email, about_user) VALUES ('$name', '$email', '$about')";
+      $result         = mysqli_query($conn, $query);
+      
+      if(!$result) {
+        
+        /* Rollback */
+        $conn->rollback();
+
+        die("User Added Failed. Please Try Again." . $result->error);
+      }
+
     }
 
-  }
+    /* commit insert */
+    $conn->commit();
 
-  /* commit insert */
-  $conn->commit();
+    $message = "User Added Successfully.";
 
-  $message = "User Added Successfully.";
-
-  redirect_form($nameErr, 'success');
+    redirect_form($message, 'success');
+  //DB Insert Ends
 
 }
 
